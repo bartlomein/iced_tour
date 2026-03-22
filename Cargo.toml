@@ -1,10 +1,10 @@
 [package]
 name = "iced_tour"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 rust-version = "1.88"
 authors = ["Bartlomiej Tyrpien"]
-description = "Guided tour / onboarding overlay for iced 0.14 apps"
+description = "Guided tour / onboarding overlay for iced applications"
 repository = "https://github.com/bartlomein/iced_tour"
 homepage = "https://github.com/bartlomein/iced_tour"
 documentation = "https://docs.rs/iced_tour"
@@ -22,3 +22,12 @@ all-features = true
 
 [[example]]
 name = "basic"
+
+[[example]]
+name = "minimal"
+
+[[example]]
+name = "widget_id"
+
+[[example]]
+name = "theming"

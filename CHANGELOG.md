@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-03-22
+
+### Added
+
+- `minimal` example — simplest possible tour with centered cards
+- `widget_id` example — spotlight follows widgets by ID, works with window resize
+- `theming` example — dark, light, and custom color themes
+
+### Fixed
+
+- README MSRV now correctly states 1.88 (matching Cargo.toml and iced 0.14)
+- Removed hardcoded iced version from description — now says "iced applications"
+- Added compatibility section with minimum iced and Rust versions
+
 ## [0.1.0] - 2026-03-22
 
 ### Added

@@ -1,6 +1,6 @@
 # iced_tour
 
-Guided tour / onboarding overlay for [iced](https://iced.rs) 0.14 apps.
+Guided tour / onboarding overlay for [iced](https://iced.rs) applications.
 
 Built for and extracted from [Telemetry Studio](https://telemetrystudio.com), a desktop app for cycling video overlays.
 
@@ -151,15 +151,19 @@ theme.button_color = iced::Color::from_rgb(1.0, 0.42, 0.21);
 | `TourTheme::dark()` / `light()` | Theme presets |
 | `integration_checklist(state, theme)` | Debug helper |
 
-## Example
+## Examples
 
 ```bash
-cargo run -p iced_tour --example basic
+cargo run --example minimal    # Simplest possible tour — centered cards, no targets
+cargo run --example basic      # Panel layout with manual rectangle targets
+cargo run --example widget_id  # Widget ID targeting — spotlight follows widgets on resize
+cargo run --example theming    # Dark, light, and custom color themes
 ```
 
-## Minimum Supported Rust Version
+## Compatibility
 
-Rust 1.75 or later.
+- **Minimum iced version**: 0.14
+- **Minimum Rust version**: 1.88
 
 ## License
 

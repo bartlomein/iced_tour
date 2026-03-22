@@ -3,7 +3,7 @@
 
 //! # iced_tour
 //!
-//! Guided tour / onboarding overlay for iced 0.14 apps.
+//! Guided tour / onboarding overlay for iced applications.
 //!
 //! There are **zero** existing Rust crates for in-app onboarding/guided tours.
 //! This is the first.
