@@ -11,6 +11,8 @@ There are **zero** existing Rust crates for in-app guided tours. This is the fir
 
 [![MSRV](https://img.shields.io/badge/MSRV-1.88-blue.svg)]()
 
+![iced_tour demo](tour.gif)
+
 ## Features
 
 - Full-screen backdrop with spotlight cutout around target UI areas
