@@ -1,7 +1,5 @@
 use iced::widget::{button, column, container, row, stack, text, Space};
-use iced::{
-    Alignment, Background, Border, Color, Element, Length, Rectangle, Size, Task, Theme,
-};
+use iced::{Alignment, Background, Border, Color, Element, Length, Rectangle, Size, Task, Theme};
 use iced_tour::{tour_overlay, CardPosition, TourMessage, TourState, TourStep, TourTheme};
 
 fn main() -> iced::Result {
@@ -30,10 +28,16 @@ enum Message {
 
 fn boot() -> (App, Task<Message>) {
     let steps = vec![
-        TourStep::new("Welcome", "Let's explore the app. No hardcoded coordinates needed!"),
-        TourStep::new("Toolbar", "Actions live up here. Resize the window — the spotlight follows.")
-            .target_id("toolbar")
-            .card_position(CardPosition::Bottom),
+        TourStep::new(
+            "Welcome",
+            "Let's explore the app. No hardcoded coordinates needed!",
+        ),
+        TourStep::new(
+            "Toolbar",
+            "Actions live up here. Resize the window — the spotlight follows.",
+        )
+        .target_id("toolbar")
+        .card_position(CardPosition::Bottom),
         TourStep::new("Content", "Your main workspace adapts to any window size.")
             .target_id("content")
             .card_position(CardPosition::Top),
@@ -76,9 +80,8 @@ fn resolve_bounds(app: &App) -> Task<Message> {
     match step.widget_id() {
         Some(id) => {
             let widget_id = iced::widget::Id::from(id.to_string());
-            iced_tour::visible_bounds(widget_id).map(|bounds| {
-                Message::BoundsResolved(bounds.unwrap_or_default())
-            })
+            iced_tour::visible_bounds(widget_id)
+                .map(|bounds| Message::BoundsResolved(bounds.unwrap_or_default()))
         }
         None => Task::none(),
     }
@@ -140,7 +143,9 @@ fn view(app: &App) -> Element<Message> {
         row![
             text("Ready").size(12).color(Color::from_rgb(0.5, 0.8, 0.5)),
             Space::new().width(Length::Fill),
-            text("v1.0.0").size(12).color(Color::from_rgb(0.5, 0.5, 0.55)),
+            text("v1.0.0")
+                .size(12)
+                .color(Color::from_rgb(0.5, 0.5, 0.55)),
         ]
         .padding([0, 12]),
     )
