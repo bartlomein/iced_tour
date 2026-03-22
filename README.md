@@ -8,7 +8,7 @@ There are **zero** existing Rust crates for in-app guided tours. This is the fir
 [![Documentation](https://docs.rs/iced_tour/badge.svg)](https://docs.rs/iced_tour)
 [![CI](https://github.com/bartlomein/iced_tour/actions/workflows/ci.yml/badge.svg)](https://github.com/bartlomein/iced_tour/actions/workflows/ci.yml)
 [![License](https://img.shields.io/crates/l/iced_tour.svg)](LICENSE-MIT)
-[![MSRV](https://img.shields.io/badge/MSRV-1.75-blue.svg)]()
+[![MSRV](https://img.shields.io/badge/MSRV-1.88-blue.svg)]()
 
 ## Features
 
