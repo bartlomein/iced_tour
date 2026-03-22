@@ -27,20 +27,15 @@ use iced::Rectangle;
 ///     .target_id("open_video");
 /// ```
 #[non_exhaustive]
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Default)]
 pub enum TourTarget {
     /// No target — centered card with full dark backdrop.
+    #[default]
     None,
     /// Fixed rectangle target (spotlight cutout at exact coordinates).
     Manual(Rectangle),
     /// Widget ID target — bounds resolved at runtime via iced container ID.
     WidgetId(String),
-}
-
-impl Default for TourTarget {
-    fn default() -> Self {
-        Self::None
-    }
 }
 
 /// A single step in the guided tour.
