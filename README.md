@@ -13,16 +13,33 @@ Built for and extracted from [Telemetry Studio](https://telemetrystudio.com), a 
 
 ![iced_tour demo](tour.gif)
 
+## Installation
+
+```bash
+cargo add iced_tour
+```
+
+Or add to your `Cargo.toml`:
+
+```toml
+[dependencies]
+iced_tour = "0.1"
+```
+
 ## Features
 
-- Full-screen backdrop with spotlight cutout around target UI areas
+- **Widget ID targeting** — spotlight any widget by container ID, resolved at runtime on any screen size
+- **Smooth animations** — spotlight slides between targets with configurable easing and duration
+- **Multiple named tours** — manage separate tours (e.g. welcome, editor) with independent completion tracking
+- **Keyboard navigation** — Escape to skip, arrow keys to navigate, Enter for next
+- **Lifecycle events** — `StepEntered`, `StepExited`, `Completed`, `Skipped` for triggering side effects
+- Full-screen backdrop with spotlight cutout and rounded corners
 - Tooltip card with title, description, dot indicators, and navigation buttons
-- Builder pattern API for defining tour steps
 - Dark and light theme presets with full customization
+- Builder pattern API for defining tour steps
 - `tour_steps![]` convenience macro for quick definitions
 - Zero-cost when inactive (returns invisible `Space`)
 - Works with iced's `stack![]` composition — no custom overlay system needed
-- Designed to be LLM-friendly: self-documenting types and actionable doc comments
 
 ## Quick Start
 
@@ -157,6 +174,44 @@ TourStep::new("Open Video", "Click here to import")
 ```
 
 This works on any screen size and adapts to layout changes — no pixel math needed.
+
+## Lifecycle Events
+
+Use events from `tour_manager.update(msg)` to trigger side effects:
+
+```rust
+use iced_tour::{TourManagerEvent, TourEvent};
+
+for event in self.tour_manager.update(msg) {
+    match event {
+        TourManagerEvent::Tour { name, event } => match event {
+            TourEvent::StepEntered { index } => {
+                // Switch UI tabs, load content, etc.
+            }
+            TourEvent::Completed | TourEvent::Skipped { .. } => {
+                // Persist completion so the tour doesn't repeat
+                save_to_preferences(&name);
+            }
+            _ => {}
+        },
+        _ => {}
+    }
+}
+```
+
+## Persisting Completion
+
+Prevent the tour from showing again after the user completes or skips it:
+
+```rust
+// On app startup, restore completion state from your preferences:
+if preferences.welcome_tour_completed {
+    tour_manager.mark_completed("welcome");
+}
+
+// On tour completion (in the event handler above):
+// Save a boolean to your preferences file, database, etc.
+```
 
 ## Themes
 
