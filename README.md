@@ -2,7 +2,7 @@
 
 Guided tour / onboarding overlay for [iced](https://iced.rs) 0.14 apps.
 
-There are **zero** existing Rust crates for in-app guided tours. This is the first.
+Built for and extracted from [Telemetry Studio](https://telemetrystudio.com), a desktop app for cycling video overlays.
 
 [![Crates.io](https://img.shields.io/crates/v/iced_tour.svg)](https://crates.io/crates/iced_tour)
 [![Documentation](https://docs.rs/iced_tour/badge.svg)](https://docs.rs/iced_tour)
