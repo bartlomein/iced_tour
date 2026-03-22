@@ -4,10 +4,9 @@ Guided tour / onboarding overlay for [iced](https://iced.rs) 0.14 apps.
 
 There are **zero** existing Rust crates for in-app guided tours. This is the first.
 
-[![Crates.io](https://img.shields.io/crates/v/iced_tour.svg)](https://crates.io/crates/iced_tour)
 [![Documentation](https://docs.rs/iced_tour/badge.svg)](https://docs.rs/iced_tour)
 [![CI](https://github.com/bartlomein/iced_tour/actions/workflows/ci.yml/badge.svg)](https://github.com/bartlomein/iced_tour/actions/workflows/ci.yml)
-[![License](https://img.shields.io/crates/l/iced_tour.svg)](LICENSE-MIT)
+[![License](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)](LICENSE-MIT)
 [![MSRV](https://img.shields.io/badge/MSRV-1.88-blue.svg)]()
 
 ## Features
