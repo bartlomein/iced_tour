@@ -1,0 +1,24 @@
+[package]
+name = "iced_tour"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+authors = ["Bartlomiej Tyrpien"]
+description = "Guided tour / onboarding overlay for iced 0.14 apps"
+repository = "https://github.com/bartlomein/iced_tour"
+homepage = "https://github.com/bartlomein/iced_tour"
+documentation = "https://docs.rs/iced_tour"
+license = "MIT OR Apache-2.0"
+keywords = ["iced", "tour", "onboarding", "gui", "overlay"]
+categories = ["gui", "visualization"]
+readme = "README.md"
+exclude = ["CLAUDE.md", ".claude/"]
+
+[dependencies]
+iced = { version = "0.14", features = ["canvas", "advanced"] }
+
+[package.metadata.docs.rs]
+all-features = true
+
+[[example]]
+name = "basic"
