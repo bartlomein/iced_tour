@@ -48,10 +48,10 @@ tour_state.start();
 ### Add to your App struct
 
 ```rust
-use iced_tour::{TourState, TourTheme};
+use iced_tour::{TourManager, TourManagerMessage, TourTheme};
 
 struct App {
-    tour_state: TourState,
+    tour_manager: TourManager,
     tour_theme: TourTheme,
     // ... your other fields
 }
@@ -60,23 +60,41 @@ struct App {
 ### Add to your Message enum
 
 ```rust
-use iced_tour::TourMessage;
+use iced_tour::TourManagerMessage;
+use iced::Rectangle;
 
 enum Message {
-    Tour(TourMessage),
+    Tour(TourManagerMessage),
+    TourBoundsResolved(Rectangle),
     // ... your other messages
 }
+```
+
+### Initialize with named tours
+
+```rust
+let tour_manager = TourManager::new()
+    .add_tour("welcome", vec![
+        TourStep::new("Welcome", "Let's take a quick tour"),
+        TourStep::new("Import", "Click here to get started")
+            .target_id("import_button")
+            .card_position(CardPosition::Right),
+    ]);
 ```
 
 ### Add to your view (stack composition)
 
 ```rust
-use iced_tour::tour_overlay;
+use iced_tour::tour_manager_overlay;
 
 fn view(&self) -> Element<Message> {
+    // Tag widgets you want to spotlight
+    let import_btn = container(button("Import"))
+        .id(widget::Id::new("import_button"));
+
     stack![
         self.view_main_content(),
-        tour_overlay(&self.tour_state, &self.tour_theme, Message::Tour),
+        tour_manager_overlay(&self.tour_manager, &self.tour_theme, Message::Tour),
     ]
     .into()
 }
@@ -85,35 +103,60 @@ fn view(&self) -> Element<Message> {
 ### Handle messages in update
 
 ```rust
-fn update(&mut self, message: Message) {
+fn update(&mut self, message: Message) -> iced::Task<Message> {
     match message {
         Message::Tour(msg) => {
-            self.tour_state.update(msg);
-            if self.tour_state.is_finished() {
-                // Persist completion so it doesn't repeat
-            }
+            self.tour_manager.update(msg);
+            return self.tour_manager.resolve_bounds_task(Message::TourBoundsResolved);
+        }
+        Message::TourBoundsResolved(bounds) => {
+            self.tour_manager.set_resolved_bounds_animated(
+                bounds,
+                &self.tour_theme.animation,
+            );
         }
         // ...
     }
+    iced::Task::none()
 }
 ```
 
 ## Tour Steps
 
-Steps can optionally highlight a specific UI area with a spotlight cutout:
+Steps can highlight specific UI areas in three ways:
 
 ```rust
 use iced_tour::{TourStep, CardPosition};
 use iced::{Rectangle, Point, Size};
 
-// Centered card (no target — works without knowing layout positions)
+// 1. Centered card (no target — works without knowing layout positions)
 TourStep::new("Welcome", "Let's explore the app");
 
-// Spotlight on a specific area
+// 2. Widget ID targeting (recommended — resolved at runtime, works on any screen size)
+TourStep::new("Open Video", "Click here to import your footage")
+    .target_id("open_video")
+    .card_position(CardPosition::Right);
+
+// 3. Manual rectangle (for panels with known dimensions)
 TourStep::new("Sidebar", "Your files are here")
     .target(Rectangle::new(Point::new(0.0, 48.0), Size::new(280.0, 500.0)))
     .card_position(CardPosition::Right);
 ```
+
+### Widget ID Targeting
+
+The recommended approach. Wrap your target widget in a `container` with an ID, and the spotlight will find it automatically:
+
+```rust
+// In your view(), tag widgets:
+container(my_button).id(widget::Id::new("open_video"))
+
+// In your step definition:
+TourStep::new("Open Video", "Click here to import")
+    .target_id("open_video")
+```
+
+This works on any screen size and adapts to layout changes — no pixel math needed.
 
 ## Themes
 
@@ -138,18 +181,20 @@ theme.button_color = iced::Color::from_rgb(1.0, 0.42, 0.21);
 
 | Function / Type | Description |
 |---|---|
-| `TourState::new(steps)` | Create with steps, inactive by default |
-| `TourState::start()` | Activate the tour |
-| `TourState::update(msg)` | Handle Next/Back/Skip/Finish |
-| `TourState::is_active()` | Check if tour is showing |
-| `TourState::is_finished()` | Check if user completed/skipped |
+| `TourManager::new()` | Create a multi-tour manager |
+| `.add_tour(name, steps)` | Register a named tour |
+| `.start(name)` | Start a named tour |
+| `.is_completed(name)` | Check if a tour was completed |
+| `.resolve_bounds_task(mapper)` | Get Task to resolve widget ID bounds |
 | `TourStep::new(title, desc)` | Step with centered card (no cutout) |
-| `.target(rect)` | Highlight a specific area |
+| `.target_id(id)` | Spotlight a widget by container ID (recommended) |
+| `.target(rect)` | Spotlight a manual rectangle |
 | `.card_position(pos)` | Control card placement |
-| `tour_overlay(state, theme, mapper)` | The overlay Element for your stack |
+| `tour_manager_overlay(mgr, theme, mapper)` | Overlay for multi-tour manager |
+| `tour_overlay(state, theme, mapper)` | Overlay for single tour |
 | `tour_steps![...]` | Convenience macro |
 | `TourTheme::dark()` / `light()` | Theme presets |
-| `integration_checklist(state, theme)` | Debug helper |
+| `TourAnimation::default()` / `none()` | Animation config (300ms EaseOutCubic / disabled) |
 
 ## Examples
 
